@@ -50,3 +50,12 @@ see `examples/1d.jl`
 ## Documentation
 
 [![Dev](https://img.shields.io/badge/docs-dev-blue.svg)](https://dev10110.github.io/GraduatedNonConvexity.jl/dev/)
+
+
+## Citation
+This package is a re-implementation of 
+```
+H. Yang, P. Antonante, V. Tzoumas, and L. Carlone,“Graduated Non-Convexity for Robust Spatial Perception: From Non-Minimal Solvers to Global Outlier Rejection”,IEEE Robotics and Automation Letters (RA-L), 2020
+```
+
+The author's original implementatation is available at https://github.com/MIT-SPARK/GNC-and-ADAPT
