@@ -39,7 +39,7 @@ end
 function GNC_TLS(N, data, LSQ_fn, RES_fn, c̄;
     max_iterations = 1000,
     μ_factor = 1.4,
-    verbose=false,
+    verbose=true,
     rtol = 1e-6)
 
     # obtain the unweighted solution
