@@ -1,5 +1,10 @@
 module GraduatedNonConvexity
 
-# Write your package code here.
+using Printf
+
+include("gnc_gm.jl")
+include("gnc_tls.jl")
+
+export GNC_GM, GNC_TLS
 
 end
