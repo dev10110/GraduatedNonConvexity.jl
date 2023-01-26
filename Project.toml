@@ -1,0 +1,13 @@
+name = "GraduatedNonConvexity"
+uuid = "8729bc32-1559-4998-b075-cda57b45b1d8"
+authors = ["Devansh Ramgopal Agrawal <devansh@umich.edu> and contributors"]
+version = "0.1.0"
+
+[compat]
+julia = "1.6"
+
+[extras]
+Test = "8dfed614-e22c-5e08-85e1-65c5234f0b40"
+
+[targets]
+test = ["Test"]
