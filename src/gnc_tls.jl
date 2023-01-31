@@ -74,7 +74,7 @@ function GNC_TLS(N, data, LSQ_fn, RES_fn, c̄;
         # check for convergence
         if iter > 1 && abs(rsum_new - rsum) <= rtol
             if verbose
-                println("rsum <= rtol. Done. \n")
+                println("Δrsum <= rtol. Done. \n")
             end
             break
         end
