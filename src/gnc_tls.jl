@@ -57,7 +57,7 @@ function GNC_TLS(N, data, LSQ_fn, RES_fn, c̄;
     end
 
     # initialize μ
-    μ = c̄^2 / (2 * rmax^2  - c̄^2)
+    μ = c̄^2 / ( max( 1e-12, 2 * rmax^2  - c̄^2) )
     
     for iter = 1:max_iterations
         
