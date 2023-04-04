@@ -78,7 +78,7 @@ function GNC_TLS(N, data, LSQ_fn, RES_fn, c̄;
     end
 
     # initialize μ
-    μ = c̄^2 / (2 * rmax^2  - c̄^2)
+    μ = c̄^2 / ( max( 1e-12, 2 * rmax^2  - c̄^2) )
     
     for iter = 1:max_iterations
         
@@ -95,7 +95,7 @@ function GNC_TLS(N, data, LSQ_fn, RES_fn, c̄;
         # check for convergence
         if iter > 1 && abs(rsum_new - rsum) <= rtol
             if verbose
-                println("rsum <= rtol. Done. \n")
+                println("Δrsum <= rtol. Done. \n")
             end
             break
         end
