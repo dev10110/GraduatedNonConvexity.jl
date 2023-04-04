@@ -52,8 +52,8 @@ Random.seed!(1)
     c = 0.3
     
     ## Solve using GNC
-    β_gm = GNC_GM(N, data, least_sq_solver, residual_fn, c) # or
-    β_tls = GNC_TLS(N, data, least_sq_solver, residual_fn, c)
+    β_gm = GNC_GM(N, data, least_sq_solver, residual_fn, c; verbose=false) # or
+    β_tls = GNC_TLS(N, data, least_sq_solver, residual_fn, c; verbose=false)
     
     ##  compare performance
     #@show norm(β_gm - β_gt)
@@ -108,8 +108,8 @@ end
     c = 0.3
     
     ## Solve using GNC
-    β_gm = GNC_GM(N, data, least_sq_solver, residual_fn, c) # or
-    β_tls = GNC_TLS(N, data, least_sq_solver, residual_fn, c)
+    β_gm = GNC_GM(N, data, least_sq_solver, residual_fn, c; verbose=false) # or
+    β_tls = GNC_TLS(N, data, least_sq_solver, residual_fn, c; verbose=false)
     
     ##  compare performance
     #@show norm(β_gm - β_gt)
@@ -117,4 +117,63 @@ end
     
     @test norm(β_gm - β_gt) <= 1e-2
     @test norm(β_tls - β_gt) <= 1e-2
+end
+
+@testset "GraduatedNonConvexity.jl - 2% outliers, no noise, inplace function" begin
+
+
+    ## construct dataset
+    N=1000
+    
+    # this is the ground truth parameter we are trying to solve for
+    β_gt = randn(2)
+    
+    x = randn(N, 2)
+    x[:,2] .= 1
+    
+    # create some noise-free measurements
+    y = x * β_gt
+    
+    # add some outliers to 2% of data
+    for i=1:N
+        rand() < 0.02 ? y[i] += 1.0 + rand()  : continue
+    end
+    
+    # collect all the necessary data
+    data = (x, y)
+    
+    ## define weighted least squares solver
+    function least_sq_solver!(x, w, data)
+        
+        X = data[1]
+        y = data[2]
+        
+        W = diagm(w)
+    
+        # analytic expression for weighted least squares
+        x .= (X' * W * X) \ (X' * W * y)
+
+        return
+    end
+    
+    ## define residual function
+    function residual_fn!(rs, β, data)
+      X = data[1]
+      y = data[2]
+      rs .= y - X * β
+      return
+    end
+    
+    # define maximum residual of inliers
+    c = 0.3
+    
+    ## Solve using GNC
+
+    β_gm = [0,0.]
+    β_tls = [0,0.]
+    GNC_GM!(β_gm, N, data, least_sq_solver!, residual_fn!, c; verbose=false) # or
+    GNC_TLS!(β_tls, N, data, least_sq_solver!, residual_fn!, c; verbose=false)
+    
+    @test norm(β_gm - β_gt) <= 1e-4
+    @test norm(β_tls - β_gt) <= 1e-4
 end
