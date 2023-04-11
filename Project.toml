@@ -1,7 +1,7 @@
 name = "GraduatedNonConvexity"
 uuid = "8729bc32-1559-4998-b075-cda57b45b1d8"
 authors = ["Devansh Ramgopal Agrawal <devansh@umich.edu> and contributors"]
-version = "0.1.0"
+version = "0.1.1"
 
 [deps]
 Printf = "de0858da-6303-5e67-8744-51eddeeeb8d7"
