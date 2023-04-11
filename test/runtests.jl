@@ -179,6 +179,4 @@ end
     @test norm(β_gm - β_gt) <= 1e-4
     @test norm(β_tls - β_gt) <= 1e-4
     
-    @code_warntype GNC_GM!(β_gm, w, rs, data, least_sq_solver!, residual_fn!, c; verbose=false) # or
-    @code_warntype GNC_TLS!(β_tls, w, rs, data, least_sq_solver!, residual_fn!, c; verbose=false)
 end
