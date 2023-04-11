@@ -105,13 +105,14 @@ end
 
 
 """
-    GNC_GM!(x, N, data, LSQ_fn!, RES_fn!, c)
+    GNC_GM!(x, w, rs, data, LSQ_fn!, RES_fn!, c)
 
 In-place version of `GNC_GM`
 
 Inputs:
 - `x`: starting point for the robust least squares
-- `N`: the number of data points (equal to the number of residuals)
+- `w`: initial weights vector (data will be overriden) 
+- `rs`: residuals vector (data will be overriden). Both `w` and `rs` need to be of the same length. 
 - `data`: the data which is to be fit
 - `LSQ_fn!`: Assumes `LSQ_fn!(x, w, data)` updates `x` in-place with the weighted least squares solution using weights `w`
 - `RES_fn!`: Assumes `RES_fn!(rs, x, data)` updates `rs` in-place with the returns residuals given the candidate solution `x`. 
@@ -121,15 +122,13 @@ Parameters:
 
 
 """
-function GNC_GM!(x, N, data, LSQ_fn!, RES_fn!, c̄;
+function GNC_GM!(x, w, rs, data, LSQ_fn!, RES_fn!, c̄;
     max_iterations = 1000,
     μ_factor = 1.4,
     verbose=true,
     rtol=1e-6)
-    
+   
     # obtain the unweighted solution
-    w = ones(N)
-    rs = ones(N)
     RES_fn!(rs, x, data)
     rmax, rsum = rmax_rsum(rs, w)
     

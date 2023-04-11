@@ -171,9 +171,14 @@ end
 
     β_gm = [0,0.]
     β_tls = [0,0.]
-    GNC_GM!(β_gm, N, data, least_sq_solver!, residual_fn!, c; verbose=false) # or
-    GNC_TLS!(β_tls, N, data, least_sq_solver!, residual_fn!, c; verbose=false)
+    w = ones(N)
+    rs = ones(N)
+    GNC_GM!(β_gm, w, rs, data, least_sq_solver!, residual_fn!, c; verbose=false) # or
+    GNC_TLS!(β_tls, w, rs, data, least_sq_solver!, residual_fn!, c; verbose=false)
     
     @test norm(β_gm - β_gt) <= 1e-4
     @test norm(β_tls - β_gt) <= 1e-4
+    
+    @code_warntype GNC_GM!(β_gm, w, rs, data, least_sq_solver!, residual_fn!, c; verbose=false) # or
+    @code_warntype GNC_TLS!(β_tls, w, rs, data, least_sq_solver!, residual_fn!, c; verbose=false)
 end
